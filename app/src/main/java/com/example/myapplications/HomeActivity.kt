@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import java.text.SimpleDateFormat
@@ -19,6 +20,7 @@ import java.util.Locale
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var db: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
     private lateinit var recyclerView: RecyclerView
     private lateinit var fabAddNoticia: FloatingActionButton
     private lateinit var noticiaAdapter: NoticiaAdapter
@@ -29,11 +31,13 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         db = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
+
         recyclerView = findViewById(R.id.recyclerView)
         fabAddNoticia = findViewById(R.id.fabAddNoticia)
         val btnAddSampleNoticia: Button = findViewById(R.id.btnAddSampleNoticia)
+        val btnLogout: Button = findViewById(R.id.btnLogout)
 
-        // Mostrar el botón de ejemplo solo en modo debug
         if (0 != (applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE)) {
             btnAddSampleNoticia.visibility = View.VISIBLE
         }
@@ -53,6 +57,13 @@ class HomeActivity : AppCompatActivity() {
 
         btnAddSampleNoticia.setOnClickListener {
             crearNoticiaDeEjemplo()
+        }
+
+        btnLogout.setOnClickListener {
+            auth.signOut()
+            Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
         }
 
         cargarNoticias()
