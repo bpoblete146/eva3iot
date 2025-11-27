@@ -24,4 +24,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <Button
+        android:id="@+id/btnAddSampleNoticia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Añadir Noticia de Ejemplo"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/fabAddNoticia"
+        app:layout_constraintEnd_toEndOf="@+id/fabAddNoticia" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
