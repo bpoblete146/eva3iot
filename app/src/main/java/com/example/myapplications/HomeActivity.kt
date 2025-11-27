@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 
 class HomeActivity : AppCompatActivity() {
 
@@ -28,11 +29,7 @@ class HomeActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         noticiaAdapter = NoticiaAdapter(noticias) { noticia ->
             val intent = Intent(this, VerNoticiaActivity::class.java).apply {
-                putExtra("titulo", noticia.titulo)
-                putExtra("resumen", noticia.resumen)
-                putExtra("contenido", noticia.contenido)
-                putExtra("autor", noticia.autor)
-                putExtra("fecha", noticia.fecha)
+                putExtra("noticia_id", noticia.id)
             }
             startActivity(intent)
         }
@@ -46,7 +43,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun cargarNoticias() {
-        db.collection("noticias")
+        db.collection("noticias").orderBy("fecha", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshots, e ->
                 if (e != null) {
                     Toast.makeText(this, "Error al cargar noticias: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -55,10 +52,7 @@ class HomeActivity : AppCompatActivity() {
 
                 if (snapshots != null) {
                     noticias.clear()
-                    for (document in snapshots) {
-                        val noticia = document.toObject(Noticia::class.java)
-                        noticias.add(noticia)
-                    }
+                    noticias.addAll(snapshots.toObjects(Noticia::class.java))
                     noticiaAdapter.notifyDataSetChanged()
                 }
             }
