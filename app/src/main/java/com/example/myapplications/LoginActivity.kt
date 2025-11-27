@@ -23,6 +23,7 @@ class LoginActivity : AppCompatActivity() {
         val etPassword: EditText = findViewById(R.id.etPassword)
         val btnLogin: Button = findViewById(R.id.btnLogin)
         val tvGoToRegister: TextView = findViewById(R.id.tvGoToRegister)
+        val tvForgotPassword: TextView = findViewById(R.id.tvForgotPassword)
 
         btnLogin.setOnClickListener { val email = etEmail.text.toString()
             val password = etPassword.text.toString()
@@ -45,6 +46,22 @@ class LoginActivity : AppCompatActivity() {
 
         tvGoToRegister.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
+        }
+
+        tvForgotPassword.setOnClickListener {
+            val email = etEmail.text.toString()
+            if (email.isNotEmpty()) {
+                auth.sendPasswordResetEmail(email)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(baseContext, "Correo de restablecimiento enviado.", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(baseContext, "Error al enviar el correo.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+            } else {
+                Toast.makeText(this, "Por favor, ingresa tu correo electrónico", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

@@ -45,9 +45,22 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="¿No tienes una cuenta? Regístrate"
-        android:textColor="@color/black"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintEnd_toEndOf="@+id/btnLogin"
         app:layout_constraintStart_toStartOf="@+id/btnLogin"
         app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+
+    <TextView
+        android:id="@+id/tvForgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="¿Olvidaste tu contraseña?"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintEnd_toEndOf="@+id/tvGoToRegister"
+        app:layout_constraintStart_toStartOf="@+id/tvGoToRegister"
+        app:layout_constraintTop_toBottomOf="@+id/tvGoToRegister" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
